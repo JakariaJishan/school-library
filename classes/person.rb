@@ -1,10 +1,13 @@
+require_relative 'teacher'
+require_relative 'student'
+
 class Person 
 
     attr_reader :id
     attr_accessor :name
     attr_accessor :age
 
-    def initialize(name = "Unknown",age, parent_permission = true )
+    def initialize(name = "Unknown",age, parent_permission:true )
         @id = Random.rand(1..1000)
         @name=name
         @parent_permission = parent_permission
@@ -32,24 +35,6 @@ class Person
 end
 
 
-class Student < Person
-    def initialize(classroom)
-        super(name = "Unknown",age, parent_permission = true)
-        @classroom = classroom
-    end
+stu1 = Student.new('classromm')
 
-    def play_hooky
-        "¯\(ツ)/¯"
-    end
-end
-
-class Teacher < Person 
-    def initialize(specialization)
-        super(name = "Unknown",age, parent_permission = true)
-        @specialization = specialization
-    end
-
-    def can_use_services? 
-        return true
-    end
-end
+puts stu1.play_hooky

@@ -13,16 +13,9 @@ class Person
     of_age? || @parent_permission
   end
 
-  def read_name
-    @name
-  end
-
   private
 
   def of_age?
-    return true if @age >= 18
-
-
-    false
+    @age >= 18
   end
 end

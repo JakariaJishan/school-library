@@ -1,13 +1,10 @@
-require_relative 'teacher'
-require_relative 'student'
 
 class Person 
 
     attr_reader :id
-    attr_accessor :name
-    attr_accessor :age
+    attr_accessor :name, :age
 
-    def initialize(name = "Unknown",age, parent_permission:true )
+    def initialize(age,name = "Unknown", parent_permission: true )
         @id = Random.rand(1..1000)
         @name=name
         @parent_permission = parent_permission
@@ -15,13 +12,12 @@ class Person
     end
 
     def can_use_services? 
-        if @age >= 18 || @parent_permission
-            return true
-         else 
-             return false
-         end
+        of_age?|| @parent_permission
     end
 
+    def read_name
+        @name
+    end
     private
 
     def of_age? 
@@ -34,7 +30,3 @@ class Person
 
 end
 
-
-stu1 = Student.new('classromm')
-
-puts stu1.play_hooky

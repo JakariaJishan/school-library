@@ -11,7 +11,6 @@ require_relative 'classroom'
 # capitalizedTrimmedPerson = TrimmerDecorator.new(capitalizedPerson)
 # puts capitalizedTrimmedPerson.correct_name
 
-
 clss = Classroom.new('2')
 stu = Student.new(23, 'b1')
 stu2 = Student.new(24, 'b2')

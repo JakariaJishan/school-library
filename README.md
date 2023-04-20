@@ -1,7 +1,7 @@
 <a name="readme-top"></a>
 
 <div align="center">
-   <h1><b>Ruby Template</b></h1>
+   <h1><b>School Library</b></h1>
 </div>
 
 <!-- TABLE OF CONTENTS -->
@@ -29,9 +29,9 @@
 
 <!-- PROJECT DESCRIPTION -->
 
-# 📖 Ruby Template <a name="about-project"></a>
+# 📖 School Library <a name="about-project"></a>
 
-**Ruby Template** is a Ruby app that allows users to manage ... and ... .
+**School Library** is a Ruby app that allows users to manage studens and books .
 
 ## 🛠 Built With <a name="built-with"></a>
 
@@ -63,7 +63,7 @@
 
 ### Key Features <a name="key-features"></a>
 
-- **.. can be created as .. or ..**
+- **School Library can be created as using oop.**
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -86,7 +86,7 @@ Clone this repository in the desired folder:
 
 ```
 cd my-folder
-git clone https://github.com/JakariaJishan/....git
+git clone https://github.com/JakariaJishan/school-library.git
 ```
 
 ### Install
@@ -94,7 +94,7 @@ git clone https://github.com/JakariaJishan/....git
 To install this project:
 
 ```
-cd repo_name
+cd school-library
 code .
 bundler install
 ```

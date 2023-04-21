@@ -1,3 +1,5 @@
+require_relative './classes/book'
+
 class App
     def initialize
         @books = []
@@ -55,6 +57,20 @@ class App
         books.each do |book|
             puts "Title: #{book.title}, Author: #{book.author}"
         end
+        puts ''
+        run
+    end
+
+    def create_book 
+        print 'Title:'
+        title = gets.chomp
+        print 'Author:'
+        author = gets.chomp
+        book = Book.new(title, author)
+        puts book
+
+        @books << book
+        puts 'Book create successfully...'
         puts ''
         run
     end

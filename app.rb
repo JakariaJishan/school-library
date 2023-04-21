@@ -159,4 +159,31 @@ class App
         run
 
     end
+
+    def list_rentals 
+        if @rentals.empty?
+            puts "No rentals available."
+            run
+        end
+
+        print "Id of person: "
+        person_id = gets.chomp.to_i
+
+        puts "Rentals.."
+
+        rentals = @rentals.select do |rental|
+            rental.person.id == person_id
+        end
+
+       if rentals.empty?
+            puts "No rentals available for this id"
+            run
+       end
+
+       rentals.each do |rental|
+        puts rental
+        puts "#{rental.date}, Book: '#{rental.book.title}' by '#{rental.book.author}'"
+       end
+       run
+    end
 end

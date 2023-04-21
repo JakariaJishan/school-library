@@ -1,3 +1,4 @@
+require 'pry'
 require_relative './classes/book'
 require_relative './classes/student'
 require_relative './classes/teacher'
@@ -148,7 +149,8 @@ class App
     print 'date: '
     date = gets.chomp
 
-    rental = Rental.new(date, @books[book_id - 1], @people[person_id - 1])
+    rental = Rental.new(date, @books[book_id ], @people[person_id - 1])
+    binding pry
     @rentals << rental
     puts 'Rental created successfully.'
     run

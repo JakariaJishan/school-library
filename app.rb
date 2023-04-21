@@ -44,4 +44,18 @@ class App
         choice = gets.chomp.to_i
         options_verify(choice)
     end
+
+    def list_books 
+        if @books.empty?
+            puts "No books found!!"
+            puts ''
+            run
+        end
+
+        books.each do |book|
+            puts "Title: #{book.title}, Author: #{book.author}"
+        end
+        puts ''
+        run
+    end
 end

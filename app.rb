@@ -1,4 +1,6 @@
 require_relative './classes/book'
+require_relative './classes/student'
+require_relative './classes/teacher'
 
 class App
     def initialize
@@ -54,7 +56,7 @@ class App
             run
         end
 
-        books.each do |book|
+        @books.each do |book|
             puts "Title: #{book.title}, Author: #{book.author}"
         end
         puts ''
@@ -74,4 +76,55 @@ class App
         puts ''
         run
     end
+
+    def list_people 
+        if @people.empty?
+            puts "No people found!!"
+            puts ''
+            run
+        end
+
+        @people.each do |person|
+            puts person.class
+            puts "[#{person.class.name}]  Name: #{person.name}, ID: #{person.id} Age: #{person.age}"
+        end
+        puts ''
+        run
+    end
+
+    def create_person
+        print 'Do you want to create a student (1) or a teacher (2)? [Input only the number]:'
+        ans = gets.chomp.to_i
+        if ans != 1 && ans != 2
+            puts "Invalid inputs.."
+            run
+        end
+
+        print "Name:"
+        name = gets.chomp
+        print "Age:"
+        age= gets.chomp
+
+        if ans === 1 
+            create_student(name,age)
+        elsif ans === 2
+            create_teacher(name, age)
+        end
+    end
+
+    def create_student(name,age)
+        student = Student.new(age,nil, name)
+        puts student.class.inspect
+        @people << student
+        puts 'Student created successfully'
+        run
+    end
+
+    def create_teacher(name,age)
+        teacher = Teacher.new( age, 'math',  name)
+        @people << teacher
+        puts 'Teacher created successfully'
+        run
+    end
+
 end

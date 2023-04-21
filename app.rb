@@ -1,6 +1,7 @@
 require_relative './classes/book'
 require_relative './classes/student'
 require_relative './classes/teacher'
+require_relative './classes/rental'
 
 class App
     def initialize
@@ -127,4 +128,35 @@ class App
         run
     end
 
+    def create_rental
+        if @books.empty? || @people.empty?
+            puts "No books or people found. Create new one."
+            run
+        end
+
+        puts "Select a book from the list by number"
+
+        @books.each_with_index do |book, index|
+            puts "#{index+1} Title: #{book.title}, Author: #{book.author}"
+        end
+
+        book_id = gets.chomp.to_i
+
+        puts "Select a person from the list by number [not ID]"
+
+        @people.each_with_index do |person, index|
+            puts "#{index+1} [#{person.class.name}] Name: #{person.name}, ID: #{person.id}, Age: #{person.age}"
+        end
+
+        person_id = gets.chomp.to_i
+        
+        print "date: "
+        date = gets.chomp
+
+        rental = Rental.new(date, @books[book_id-1], @people[person_id-1])
+        @rentals << rental
+        puts "Rental created successfully."
+        run
+
+    end
 end

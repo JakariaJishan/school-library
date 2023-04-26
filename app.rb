@@ -1,7 +1,11 @@
+require 'pry'
 require_relative './classes/book'
 require_relative './classes/student'
 require_relative './classes/teacher'
 require_relative './classes/rental'
+require_relative './classes/person'
+require 'json'
+require 'fileutils'
 
 class App
   def initialize
@@ -41,6 +45,9 @@ class App
   # rubocop:enable Metrics/CyclomaticComplexity
 
   def run
+    load_books
+    load_people
+    load_rentals
     options
     choice = gets.chomp.to_i
     options_verify(choice)
@@ -69,6 +76,8 @@ class App
     puts book
 
     @books << book
+    File.write('books.json', JSON.pretty_generate(@books.map { |b| { title: b.title, author: b.author } }))
+
     puts 'Book create successfully...'
     puts ''
     run
@@ -104,6 +113,7 @@ class App
 
     if ans == 1
       create_student(name, age)
+
     elsif ans == 2
       create_teacher(name, age)
     end
@@ -114,6 +124,9 @@ class App
     puts student.class.inspect
     @people << student
     puts 'Student created successfully'
+
+    File.write('people.json', JSON.pretty_generate(@people.map { |b| { type:b.class.name, name: b.name, age: b.age, id:b.id } }))
+
     run
   end
 
@@ -121,6 +134,8 @@ class App
     teacher = Teacher.new(age, 'math', name)
     @people << teacher
     puts 'Teacher created successfully'
+
+    File.write('people.json', JSON.pretty_generate(@people.map { |b| { type:b.class.name, name: b.name, age: b.age, id:b.id } }))
     run
   end
 
@@ -148,8 +163,11 @@ class App
     print 'date: '
     date = gets.chomp
 
-    rental = Rental.new(date, @books[book_id - 1], @people[person_id - 1])
+    rental = Rental.new(date, @books[book_id -1], @people[person_id - 1])
+    # binding pry
     @rentals << rental
+    File.write('rental.json', JSON.pretty_generate(@rentals.map { |b| { date: b.date ,person: {name:b.person.name, age: b.person.age, id:b.person.id, type: b.person.class.name}, book:{title:b.book.title, author: b.book.author}  
+    } }))    
     puts 'Rental created successfully.'
     run
   end
@@ -166,6 +184,10 @@ class App
     puts 'Rentals..'
 
     rentals = @rentals.select do |rental|
+      puts rental.person.id
+      puts person_id    #499
+
+      puts "#{rental.date}, Book: #{rental.book.title} by #{rental.book.author}"
       rental.person.id == person_id
     end
 
@@ -179,5 +201,44 @@ class App
       puts "#{rental.date}, Book: '#{rental.book.title}' by '#{rental.book.author}'"
     end
     run
+  end
+
+  def load_people
+    if File.zero?('people.json')
+      File.write('people.json', '[]')
+    else
+      json_string = File.read('people.json')
+      data = JSON.parse(json_string)
+      @people = data.map do |p| 
+        if p['type'] == 'Student'
+          Student.new(p['age'], nil, p['name'])
+        elsif p['type'] == 'Teacher'
+          Teacher.new(p['age'], 'math', p['name'])
+        end
+      end
+    end
+  end
+
+  def load_books
+    @books = if File.exist?('books.json')
+      JSON.parse(File.read('books.json'), symbolize_names: true).map do |book_data|
+        Book.new(book_data[:title], book_data[:author])
+      end
+    else
+      []
+    end
+  end
+
+  def load_rentals
+    if File.exist?('rental.json') && !File.empty?('rental.json')
+      @rentals = JSON.parse(File.read('rental.json')).map do |r|
+        book = @books.find { |b| b.title == r['book']['title'] }
+        person = @people.find { |p| p.name == r['person']['name'] }
+        person.id = r['person']['id']
+        Rental.new(r['date'], book, person)
+      end
+    else
+      File.write('people.json', JSON.generate([])) unless File.exist?('people.json')
+    end
   end
 end
